@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "746559038427",
+    "project_id": "rapido2-c3791",
+    "storage_bucket": "rapido2-c3791.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746559038427:android:8202b35a30eab911693dfe",
+        "android_client_info": {
+          "package_name": "com.example.rapido"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVtcLwjNovSyonaa4dkGKHlHcqnHNEyTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
