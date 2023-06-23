@@ -128,24 +128,24 @@ class _Rapido1_VerificationState extends State<Rapido1_Verification> {
     });
   }
 
-  Future<void> _showNotification(String title, String body) async {
-    var androidChannelSpecifics = AndroidNotificationDetails(
-      'channelId',
-      'channelName',
-      channelDescription: 'channelDescription',
-      importance: Importance.high,
-      priority: Priority.high,
-    );
-    var platformChannelSpecifics = NotificationDetails(
-      android: androidChannelSpecifics,
-    );
-    await _flutterLocalNotificationsPlugin.show(
-      0,
-      title,
-      body,
-      platformChannelSpecifics,
-    );
-  }
+  // Future<void> _showNotification(String title, String body) async {
+  //   var androidChannelSpecifics = AndroidNotificationDetails(
+  //     'channelId',
+  //     'channelName',
+  //     channelDescription: 'channelDescription',
+  //     importance: Importance.high,
+  //     priority: Priority.high,
+  //   );
+  //   var platformChannelSpecifics = NotificationDetails(
+  //     android: androidChannelSpecifics,
+  //   );
+  //   await _flutterLocalNotificationsPlugin.show(
+  //     0,
+  //     title,
+  //     body,
+  //     platformChannelSpecifics,
+  //   );
+  // }
 
   Widget slider(String asset, bool first, String topText1, String topText2) {
     double heights = MediaQuery.of(context).size.height - 500;

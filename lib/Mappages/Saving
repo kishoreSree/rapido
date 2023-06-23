@@ -1,0 +1,97 @@
+void _onclickEnable(enabled) {
+    setState(() {
+      _enabled = enabled;
+    });
+    if (enabled) {
+      BackgroundFetch.start().then((int status) {
+        print("BackgroundFetch start success:$status");
+      }).catchError((e) {
+        print("[BackgroundFetch] start Failure:$e");
+      });
+    } else {
+      BackgroundFetch.stop().then((int status) {
+        print("[Background] status: $status");
+        setState(() {
+          _status = status;
+        });
+      });
+    }
+  }
+
+  void _onclickStatus() async {
+    int status = await BackgroundFetch.status;
+    print("[backgroundFetch] Status: $status");
+    setState(() {
+      _status = status;
+    });
+  }
+
+  double? latLive;
+  double? longLive;
+  liveTracking() {
+    loc.Location().onLocationChanged.listen((res) {
+      setState(() {
+        latLive = res.latitude;
+        longLive = res.longitude;
+      });
+      print("live:$latLive,$longLive");
+    });
+  }
+
+  void track() async {
+    var geolocator = geo.Geolocator();
+  }
+
+
+  void activateGeofencing() async {
+    await GeoFenceSetUp();
+   // StreamForGeoFencing();
+  }
+
+  GeoFenceSetUp() async {
+    await Geofence.startGeofenceService(
+      pointedLatitude: "12.997023152137828",
+      pointedLongitude: "80.20951397716999",
+      radiusMeter: "12.0",
+      eventPeriodInSeconds: 5,
+    );
+  }
+
+  void StreamForGeoFencing() {
+    StreamSubscription<GeofenceEvent>? geofenceEventStream;
+    geofenceEventStream =
+        Geofence.getGeofenceStream()!.listen((GeofenceEvent event) async {
+      if (event == GeofenceEvent.enter) {
+        print("User Entered");
+        DateTime enteredTime = DateTime.now();
+        print("Enterd Time:${enteredTime}");
+        // stopgeoFence();
+      } else if (event == GeofenceEvent.exit) {
+        print("User Exit");
+        DateTime exitTime = DateTime.now();
+        print("Exit Time:${exitTime}");
+        //stopgeoFence();
+      }
+    });
+  // }
+
+
+  
+    Future<bool> getCurrentlocation() async {
+    bool islocationEnabled = await geo.Geolocator.isLocationServiceEnabled();
+    if (islocationEnabled) {
+      geo.Position position = await geo.Geolocator.getCurrentPosition(
+          desiredAccuracy: geo.LocationAccuracy.high);
+      double lat = position.latitude;
+      double lng = position.longitude;
+      print("lat:$lat");
+      print("lng:$lng");
+      setState(() {
+        CRlangtitude = lng;
+        CRlatitude = lat;
+      });
+      return true;
+    } else {
+      return false;
+    }
+  }
