@@ -373,6 +373,9 @@ class _MainMapState extends State<MainMap> {
                                               ),
                                               icon: markericon1,
                                               draggable: true,
+                                              onDragStart: (value) {
+                                                forRadiues.value = false;
+                                              },
                                               onDragEnd: (newPosition) async {
                                                 print(newPosition.latitude);
                                                 print(newPosition.longitude);
@@ -380,13 +383,13 @@ class _MainMapState extends State<MainMap> {
                                                 newLat = newPosition.latitude;
                                                 newlng = newPosition.longitude;
                                                 newlat1 = newLat;
-                                                newlng1 = newlng;
+                                                newlng1 = newlng1;
+                                                forRadius = true;
+                                                forRadiues.value = true;
                                                 newLatNotifier.value =
                                                     newPosition.latitude;
                                                 newLngNotifier.value =
                                                     newPosition.longitude;
-
-                                                forRadius = true;
 
                                                 List<Placemark> placemarks =
                                                     await placemarkFromCoordinates(
@@ -457,11 +460,15 @@ class _MainMapState extends State<MainMap> {
                                             }
                                             return iswithinradius;
                                           })),
-                                          circles: Set<Circle>.from([
+                                          circles: {
                                             Circle(
                                               circleId: CircleId("Circle"),
-                                              center: LatLng(
-                                                  CRlatitude!, CRlangtitude!),
+                                              center: forRadiues == true
+                                                  ? LatLng(CRlatitude!,
+                                                      CRlangtitude!)
+                                                  : LatLng(
+                                                      newLat ?? CRlatitude!,
+                                                      newlng ?? CRlangtitude!),
                                               radius: 800,
                                               fillColor: Colors.blue.shade100
                                                   .withOpacity(0.5),
@@ -469,6 +476,7 @@ class _MainMapState extends State<MainMap> {
                                                   .withOpacity(0.1),
                                               strokeWidth: 5,
                                             ),
+
                                             // ValueListenableBuilder<double?>(
                                             //   valueListenable: newLatNotifier,
                                             //   builder: (BuildContext context,
@@ -493,26 +501,23 @@ class _MainMapState extends State<MainMap> {
                                             //         });
                                             //   },
                                             // ),
-                                            if (newlat1 != null &&
-                                                newlng1 != null)
-                                              {
-                                                Circle(
-                                                  circleId:
-                                                      CircleId("radiusNewlat"),
-                                                  center: LatLng(
-                                                    newlat1!,
-                                                    newlng1!,
-                                                  ),
-                                                  radius: 800,
-                                                  fillColor: Colors
-                                                      .blue.shade100
-                                                      .withOpacity(0.5),
-                                                  strokeColor: Colors
-                                                      .blue.shade100
-                                                      .withOpacity(0.1),
-                                                  strokeWidth: 5,
-                                                ),
-                                              }
+                                            // if (forRadius == true)
+                                            //   Circle(
+                                            //     circleId:
+                                            //         CircleId("radiusNewlat"),
+                                            //     center: LatLng(
+                                            //       newlat1 ?? CRlatitude!,
+                                            //       newlng1 ?? CRlangtitude!,
+                                            //     ),
+                                            //     radius: 800,
+                                            //     fillColor: Colors.blue.shade100
+                                            //         .withOpacity(0.5),
+                                            //     strokeColor: Colors
+                                            //         .blue.shade100
+                                            //         .withOpacity(0.1),
+                                            //     strokeWidth: 5,
+                                            //   ),
+
                                             // if (newLat == null &&
                                             //     newlng == null)
                                             //   Circle(
@@ -528,7 +533,7 @@ class _MainMapState extends State<MainMap> {
                                             //         .withOpacity(0.1),
                                             //     strokeWidth: 5,
                                             //   )
-                                          ]),
+                                          },
                                           zoomControlsEnabled: false,
                                         );
                                       },
